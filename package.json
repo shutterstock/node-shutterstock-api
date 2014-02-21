@@ -1,0 +1,33 @@
+{
+  "name": "shutterstock-api",
+  "version": "0.1.1",
+  "description": "Shutterstock API Node Client",
+  "main": "lib/index.js",
+  "private": true,
+  "dependencies": {
+    "armrest": "2.1.2",
+    "underscore": "1.5.2",
+    "request": "2.33.0",
+    "q": "1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "1.10.0",
+    "should": "3.1.2",
+    "gulp": "3.5.2",
+    "gulp-jshint": "1.4.2",
+    "gulp-mocha": "0.4.1",
+    "jshint-stylish": "0.1.5",
+    "nock": "0.27.2"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test gulp test"
+  },
+  "repository": "",
+  "author": "Brian Phillips <bphillips@shutterstock.com>",
+  "license": "MIT",
+  "keywords": [
+    "shutterstock",
+    "api",
+    "rest"
+  ]
+}

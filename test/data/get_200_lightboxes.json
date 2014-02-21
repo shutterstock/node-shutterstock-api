@@ -1,0 +1,39 @@
+[
+	{
+		"images": [
+			{
+				"image_id": "200000",
+				"resource_url": "http://api.shutterstock.com/images/200000"
+			}
+		],
+		"confirmed": "1",
+		"resource_url": "http://api.shutterstock.com/lightboxes/1",
+		"image_count": 1,
+		"lightbox_id": "1",
+		"lightbox_name": "First lightbox"
+	},
+	{
+		"images": [
+			{
+				"image_id": "200000",
+				"resource_url": "http://api.shutterstock.com/images/200000"
+			},{
+				"image_id": "200000",
+				"resource_url": "http://api.shutterstock.com/images/200000"
+			}
+		],
+		"confirmed": "1",
+		"resource_url": "http://api.shutterstock.com/lightboxes/2",
+		"image_count": 2,
+		"lightbox_id": "2",
+		"lightbox_name": "Second lightbox"
+	},
+	{
+		"images": [ ],
+		"confirmed": "1",
+		"resource_url": "http://api.shutterstock.com/lightboxes/3",
+		"image_count": 0,
+		"lightbox_id": "3",
+		"lightbox_name": "Third lightbox"
+	}
+]
