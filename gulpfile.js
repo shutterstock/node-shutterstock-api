@@ -30,11 +30,11 @@ function lint(src){
 }
 
 gulp.task('test', function() {
-  return test([paths.unit]);
+  test([paths.unit]);
 });
 
 gulp.task('integration', function() {
-  return test([paths.integration]);
+  test([paths.integration]);
 });
 
 gulp.task('lint', function () {
