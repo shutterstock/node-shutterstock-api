@@ -6,7 +6,8 @@ var Q = require('q');
 
 describe('ShutterstockAPIClient', function() {
 
-	var api = new Api(mockCredentials.apiUser, mockCredentials.apiKey);
+	// change log level to INFO for armrest trace info.
+	var api = new Api(mockCredentials.apiUser, mockCredentials.apiKey, {logLevel: 'WARN'});
 
 	describe('constructor', function() {
 		it('should set the auth property', function() {

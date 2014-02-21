@@ -9,7 +9,7 @@ var mockDownloads = require('../data/get_200_downloads.json');
 
 describe('Customer', function() {
 
-	var api = new Api(mockCredentials.apiUser, mockCredentials.apiKey);
+	var api = new Api(mockCredentials.apiUser, mockCredentials.apiKey, {logLevel: 'WARN'});
 
 	before(function(done){
 		var scope = mockHelper(mockCredentials).mockAuth();
