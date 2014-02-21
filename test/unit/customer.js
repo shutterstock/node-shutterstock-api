@@ -5,6 +5,7 @@ var mockCredentials = require('../setup/credentials.json');
 var mockSubscriptions = require('../data/get_200_subscriptions.json');
 var mockLightboxes = require('../data/get_200_lightboxes.json');
 var mockLightbox = require('../data/get_200_lightbox.json');
+var mockDownloads = require('../data/get_200_downloads.json');
 
 describe('Customer', function() {
 
@@ -70,6 +71,23 @@ describe('Customer', function() {
 				lightbox.should.have.property('image_count');
 				lightbox.should.have.property('lightbox_name');
 				lightbox.should.have.property('lightbox_id');
+				scope.isDone().should.be.true;
+				done();
+			});
+		});
+	});
+
+	describe('image downloads', function() {
+		it('should return downloads', function(done) {
+			var scope = mockHelper().nock()
+			.get('/customers/' + mockCredentials.username + '/images/downloads.json?auth_token=' + mockCredentials.mock_auth_token + '&page_size=40&page=1')
+			.reply(200, mockDownloads);
+			api.customer().imageDownloads(1, 40, function(err, downloads) {
+				downloads.should.be.instanceof(Object);
+				downloads['1'].should.be.instanceof(Array);
+				downloads['1'][1].should.have.property('image_size');
+				downloads['1'][1].should.have.property('user');
+				downloads['1'][1].should.have.property('license');
 				scope.isDone().should.be.true;
 				done();
 			});

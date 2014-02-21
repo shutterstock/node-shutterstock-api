@@ -1,0 +1,34 @@
+{
+	"1": [
+		{
+			"image_size": "huge",
+			"time": "2013-01-01 00:00:00",
+			"image_id": "200000",
+			"user": "tester",
+			"license": "enhanced"
+		},
+		{
+			"image_size": "medium",
+			"time": "2013-06-06 000:00:00",
+			"image_id": "200001",
+			"user": "tester",
+			"license": "enhanced"
+		}
+	],
+	"2": [
+		{
+			"image_size": "small",
+			"time": "2013-02-02 00:00:00",
+			"image_id": "200000",
+			"user": "tester",
+			"license": "standard"
+		},
+		{
+			"image_size": "medium",
+			"time": "2013-03-03 00:00:00",
+			"image_id": "200001",
+			"user": "tester",
+			"license": "standard"
+		}
+	]
+}

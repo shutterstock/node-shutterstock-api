@@ -104,4 +104,11 @@ describe('API', function() {
 		});
 	});
 
+	it('should get image downloads', function(done) {
+		authenticatedCustomer.imageDownloads(1, 40, function(err, downloads) {
+			downloads.should.be.instanceof(Object);
+			done();
+		});
+	});
+
 });
