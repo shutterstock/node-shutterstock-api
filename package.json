@@ -1,6 +1,6 @@
 {
   "name": "shutterstock-api",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Shutterstock API Node Client",
   "main": "lib/index.js",
   "private": true,

@@ -17,15 +17,30 @@ describe('ShutterstockAPIClient', function() {
 	});
 
 	describe('auth', function() {
-		it('should return a populated Customer object', function(done) {
-			var scope = mockHelper(mockCredentials).mockAuth();
+		var scope;
+
+		beforeEach(function(){
+			scope = mockHelper(mockCredentials).mockAuth();
+		});
+
+		function assertions(customer){
+			var authParams = customer._authParams.injectAuthToken();
+			customer.should.have.property('username', mockCredentials.username);
+			authParams.should.have.property('auth_token', mockCredentials.mock_auth_token);
+		}
+
+		it('should call back with a Customer object', function(done) {
 			api.auth(mockCredentials.username, mockCredentials.password, function(err, customer) {
-				var authParams = customer._authParams.injectAuthToken();
-				customer.should.have.property('username', mockCredentials.username);
-				authParams.should.have.property('auth_token', mockCredentials.mock_auth_token);
+				assertions(customer);
 				should(scope.isDone()).be.true;
 				done();
 			});
+		});
+
+		it('should return a promise with a Customer object', function(done) {
+			var promise = api.auth(mockCredentials.username, mockCredentials.password);
+			Q.isPromise(promise).should.be.true;
+			promise.then(assertions).done(done);
 		});
 	});
 
@@ -38,28 +53,25 @@ describe('ShutterstockAPIClient', function() {
 			.reply(200, [{category_id: '1', category_name: 'Testing'}]);
 		});
 
-		it('should return a promise', function(done) {
-			var promise = api.categories();
-			Q.isPromise(promise).should.be.true;
-			promise.then(function(categories) {
-				categories.should.be.instanceOf(Array);
-				categories.should.have.length(1);
-				categories[0].should.have.property('category_id', '1');
-				scope.isDone().should.be.true;
-			}).done(done);
-		});
+		function assertions(categories){
+			categories.should.be.instanceOf(Array);
+			categories.should.have.length(1);
+			categories[0].should.have.property('category_id', '1');
+		}
 
-		it('should return a list of categories', function(done) {
-			api.categories(function(err, data) {
-				should.strictEqual(null, err);
-				data.should.be.instanceOf(Array);
-				data.should.have.length(1);
-				data[0].should.have.property('category_id', '1');
+		it('should call back with a list of categories', function(done) {
+			api.categories(function(err, categories) {
+				assertions(categories);
 				scope.isDone().should.be.true;
 				done();
 			});
 		});
 
+		it('should return a promise with a list of categories', function(done) {
+			var promise = api.categories();
+			Q.isPromise(promise).should.be.true;
+			promise.then(assertions).done(done);
+		});
 	});
 
 });
