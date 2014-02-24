@@ -5,6 +5,7 @@ var mockCredentials = require('../setup/credentials.json');
 var pagedImageSearch = {	page1: require('../data/get_200_search_page_1.json'),
 													page2: require('../data/get_200_search_page_2.json')	};
 var Q = require('q');
+var es = require('event-stream');
 
 describe('ShutterstockAPIClient', function() {
 
@@ -116,6 +117,46 @@ describe('ShutterstockAPIClient', function() {
 			Q.isPromise(promise).should.be.true;
 			promise.then(assertions).done(done);
 		});
+
+	});
+
+	describe('stream image search', function() {
+		var scope;
+
+		beforeEach(function(){
+			scope = mockHelper().nock()
+			.get('/images/search.json?searchterm=tigers&search_group=vectors&safesearch=0&sort_method=popular&page_number=1')
+			.reply(200, pagedImageSearch.page1)
+			.get('/images/search.json?searchterm=tigers&search_group=vectors&safesearch=0&sort_method=popular&page_number=2')
+			.reply(200, pagedImageSearch.page2);
+		});
+
+		function assertions(readStream){
+			readStream.should.have.property('readable', true);
+		}
+
+		it('should call back with a readable stream', function(done){
+			api.streamSearchImages({
+				searchterm: 'tigers',
+				search_group: 'vectors',
+				safesearch: 0,
+				sort_method: 'popular'
+			}, function(err, readStream) {
+				assertions(readStream);
+				done();
+			});
+		});
+
+		// it('should return a promise with a paged list of results', function(done){
+		// 	var promise = api.searchImages({
+		// 		searchterm: 'tigers',
+		// 		search_group: 'vectors',
+		// 		safesearch: 0,
+		// 		page_number: 1,
+		// 		sort_method: 'popular'});
+		// 	Q.isPromise(promise).should.be.true;
+		// 	promise.then(assertions).done(done);
+		// });
 
 	});
 
