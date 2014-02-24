@@ -167,5 +167,4 @@ describe('Customer', function() {
 			promise.then(assertions).done(done);  
 		});
 	});
-
 });
