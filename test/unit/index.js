@@ -122,42 +122,36 @@ describe('ShutterstockAPIClient', function() {
 
 	describe('stream image search', function() {
 		var scope;
-
+		
 		beforeEach(function(){
 			scope = mockHelper().nock()
 			.get('/images/search.json?searchterm=tigers&search_group=vectors&safesearch=0&sort_method=popular&page_number=1')
 			.reply(200, pagedImageSearch.page1)
 			.get('/images/search.json?searchterm=tigers&search_group=vectors&safesearch=0&sort_method=popular&page_number=2')
-			.reply(200, pagedImageSearch.page2);
+			.reply(200, pagedImageSearch.page2)
+			.get('/images/search.json?searchterm=tigers&search_group=vectors&safesearch=0&sort_method=popular&page_number=3')
+			.reply(200, {results:[]});
 		});
 
-		function assertions(readStream){
-			readStream.should.have.property('readable', true);
-		}
-
 		it('should call back with a readable stream', function(done){
-			api.streamSearchImages({
+			var readStream = api.streamSearchImages({
 				searchterm: 'tigers',
 				search_group: 'vectors',
 				safesearch: 0,
-				sort_method: 'popular'
-			}, function(err, readStream) {
-				assertions(readStream);
-				done();
+				sort_method: 'popular'});
+
+			readStream.should.have.property('readable', true);
+
+			var writeStream = es.writeArray(function (err, results){
+				if(err) { throw err; }
+				results.should.have.property('length', 300);
+				results.should.be.instanceof(Array);
+				scope.isDone().should.be.true;
+				done();     
 			});
+			
+			readStream.pipe(writeStream);
 		});
-
-		// it('should return a promise with a paged list of results', function(done){
-		// 	var promise = api.searchImages({
-		// 		searchterm: 'tigers',
-		// 		search_group: 'vectors',
-		// 		safesearch: 0,
-		// 		page_number: 1,
-		// 		sort_method: 'popular'});
-		// 	Q.isPromise(promise).should.be.true;
-		// 	promise.then(assertions).done(done);
-		// });
-
 	});
 
 });
