@@ -2,6 +2,8 @@ var should = require('should');
 var Api = require('../../lib/index');
 var mockHelper = require('../setup/helper');
 var mockCredentials = require('../setup/credentials.json');
+var pagedImageSearch = {	page1: require('../data/get_200_search_page_1.json'),
+													page2: require('../data/get_200_search_page_2.json')	};
 var Q = require('q');
 
 describe('ShutterstockAPIClient', function() {
@@ -72,6 +74,49 @@ describe('ShutterstockAPIClient', function() {
 			Q.isPromise(promise).should.be.true;
 			promise.then(assertions).done(done);
 		});
+	});
+
+	describe('image search', function() {
+		var scope;
+
+		beforeEach(function(){
+			scope = mockHelper().nock()
+			.get('/images/search.json?searchterm=tigers&search_group=vectors&safesearch=0&page_number=1&sort_method=popular')
+			.reply(200, pagedImageSearch.page1);
+		});
+
+		function assertions(results){
+			results.should.have.property('page', '1');
+			results.should.have.property('sort_method', 'popular');
+			results.results.should.be.instanceof(Array);
+			results.results.should.have.property('length', 150);
+		}
+
+		it('should call back with a list of results', function(done){
+			api.searchImages({
+				searchterm: 'tigers',
+				search_group: 'vectors',
+				safesearch: 0,
+				page_number: 1,
+				sort_method: 'popular'
+			}, function(err, results) {
+				assertions(results);
+				scope.isDone().should.be.true;
+				done();
+			});
+		});
+
+		it('should return a promise with a paged list of results', function(done){
+			var promise = api.searchImages({
+				searchterm: 'tigers',
+				search_group: 'vectors',
+				safesearch: 0,
+				page_number: 1,
+				sort_method: 'popular'});
+			Q.isPromise(promise).should.be.true;
+			promise.then(assertions).done(done);
+		});
+
 	});
 
 });
