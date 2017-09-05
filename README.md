@@ -12,3 +12,7 @@ permissions in order to use this module.
 
 Please visit the test/integration directory for examples on how to get started
 working with this module.
+
+## License
+
+[MIT](LICENSE) © 2017 Shutterstock Images, LLC
