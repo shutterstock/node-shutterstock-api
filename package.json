@@ -30,5 +30,15 @@
     "shutterstock",
     "api",
     "rest"
+  ],
+  "homepage": "https://github.com/shutterstock/node-shutterstock-api",
+  "bugs": {
+    "url": "https://github.com/shutterstock/node-shutterstock-api/issues"
+  },
+  "contributors": [
+    "Brian Phillips <bphillips@shutterstock.com>",
+    "Scott Puleo <puleos@gmail.com>",
+    "Richard Littauer <richard.littauer@gmail.com>",
+    "Zubin Tiku <ztiku@shutterstock.com>"
   ]
 }
